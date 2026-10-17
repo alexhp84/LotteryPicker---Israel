@@ -1,55 +1,125 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" dir="ltr" data-language="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Random Number Generator</title>
+  <meta name="theme-color" content="#f4f8ff">
+  <meta name="description" content="Generate a custom set of random numbers. Choose the quantity and range.">
+  <title>Random Number Picker</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
+<div class="decor decor-coin coin-one" aria-hidden="true">$</div>
+<div class="decor decor-coin coin-two" aria-hidden="true">$</div>
+<div class="decor decor-die" aria-hidden="true"><span>⚄</span></div>
+<div class="spark spark-one" aria-hidden="true">✦</div>
+<div class="spark spark-two" aria-hidden="true">✦</div>
 <main class="page">
-  <header>
-    <div class="eyebrow">PYTHON · RANDOMNESS · SAMPLING</div>
-    <h1>Random Number Generator</h1>
-    <p class="intro">Choose how many numbers you want and the minimum and maximum values. Generate a fresh set whenever you like.</p>
+  <div class="language-switch" role="group" aria-label="Language / שפה">
+    <button type="button" class="language-button active" data-set-language="en" aria-pressed="true">English</button>
+    <button type="button" class="language-button" data-set-language="he" aria-pressed="false">עברית</button>
+  </div>
+
+  <header class="hero">
+    <div class="hero-art left-art" aria-hidden="true">
+      <div class="hero-ball ball-red">7</div>
+      <div class="hero-ball ball-yellow">23</div>
+      <div class="hero-ball ball-blue">42</div>
+      <span class="coin coin-small">＄</span>
+    </div>
+    <div class="hero-copy">
+      <div class="eyebrow" data-en="RANDOMNESS · YOUR RULES" data-he="אקראיות · לפי הבחירה שלך">RANDOMNESS · YOUR RULES</div>
+      <h1 data-en-html="Random <span>Number</span><br>Picker" data-he-html="מחולל <span>מספרים</span><br>אקראיים">Random <span>Number</span><br>Picker</h1>
+      <p data-en="Pick your numbers in seconds!" data-he="בחרו את המספרים שלכם בתוך שניות!">Pick your numbers in seconds!</p>
+    </div>
+    <div class="hero-art right-art" aria-hidden="true">
+      <div class="money-symbol">$</div>
+      <div class="dice"><span>⚄</span></div>
+      <div class="coin coin-large">＄</div>
+    </div>
   </header>
 
-  {% if error %}
-    <p class="error" role="alert">{{ error }}</p>
-  {% endif %}
-
-  <form method="post" class="controls">
-    <label>How many numbers?
-      <input type="number" name="count" min="1" max="500" value="{{ count }}" required>
-    </label>
-    <label>Minimum number
-      <input type="number" name="minimum" min="-1000000000" max="1000000000" value="{{ minimum }}" required>
-    </label>
-    <label>Maximum number
-      <input type="number" name="maximum" min="-1000000000" max="1000000000" value="{{ maximum }}" required>
-    </label>
-    <button type="submit">Generate numbers <span aria-hidden="true">↗</span></button>
-  </form>
-
-  {% if numbers is not none %}
-  <section class="results" aria-live="polite">
-    <div class="results-heading">
-      <h2>Your numbers</h2>
-      <p>{{ numbers|length }} unique number{% if numbers|length != 1 %}s{% endif %} from {{ minimum }} to {{ maximum }}</p>
+  <section class="app-panel">
+    <div class="section-heading">
+      <span class="heading-icon" aria-hidden="true">✦</span>
+      <div>
+        <h2 data-en="Make your own number set" data-he="צרו סדרת מספרים משלכם">Make your own number set</h2>
+        <p data-en="Choose how many numbers you need and set your own range." data-he="בחרו כמה מספרים אתם צריכים והגדירו את הטווח הרצוי.">Choose how many numbers you need and set your own range.</p>
+      </div>
     </div>
-    <div class="number-list">
-      {% for number in numbers %}
-        <span class="number">{{ number }}</span>
-      {% endfor %}
-    </div>
+
+    {% if error %}
+      <p class="error" role="alert" data-error-en="{{ error }}" data-error-he="{{ error }}">{{ error }}</p>
+    {% endif %}
+
+    <form method="post" class="controls">
+      <label>
+        <span data-en="How many numbers?" data-he="כמה מספרים?">How many numbers?</span>
+        <input type="number" name="count" min="1" max="500" value="{{ count }}" required aria-label="How many numbers">
+        <small data-en="Number of unique results" data-he="מספר התוצאות הייחודיות">Number of unique results</small>
+      </label>
+      <label>
+        <span data-en="Minimum number" data-he="מספר מינימלי">Minimum number</span>
+        <input type="number" name="minimum" min="-1000000000" max="1000000000" value="{{ minimum }}" required aria-label="Minimum number">
+        <small data-en="Lowest value, included" data-he="הערך הנמוך ביותר, כולל">Lowest value, included</small>
+      </label>
+      <label>
+        <span data-en="Maximum number" data-he="מספר מקסימלי">Maximum number</span>
+        <input type="number" name="maximum" min="-1000000000" max="1000000000" value="{{ maximum }}" required aria-label="Maximum number">
+        <small data-en="Highest value, included" data-he="הערך הגבוה ביותר, כולל">Highest value, included</small>
+      </label>
+      <button type="submit"><span class="button-die" aria-hidden="true">⚄</span> <span data-en="Generate Numbers" data-he="הגרילו מספרים">Generate Numbers</span> <span aria-hidden="true">↗</span></button>
+    </form>
+
+    {% if numbers is not none %}
+    <section class="results" aria-live="polite">
+      <div class="results-heading">
+        <span class="clover" aria-hidden="true">☘</span>
+        <div>
+          <h2 data-en="Your Numbers" data-he="המספרים שלכם">Your Numbers</h2>
+          <p data-en="{{ numbers|length }} unique numbers · Range {{ minimum }}–{{ maximum }}" data-he="{{ numbers|length }} מספרים ייחודיים · טווח {{ minimum }}–{{ maximum }}">{{ numbers|length }} unique numbers · Range {{ minimum }}–{{ maximum }}</p>
+        </div>
+      </div>
+      <div class="number-list">
+        {% for number in numbers %}
+          <span class="number-ball ball-{{ loop.index0 % 6 }}">{{ number }}</span>
+        {% endfor %}
+      </div>
+    </section>
+    {% endif %}
+
+    <div class="info-note"><span class="info-icon" aria-hidden="true">i</span><p data-en="Numbers are randomly selected without duplicates. Both ends of your chosen range are included." data-he="המספרים נבחרים באקראי ללא כפילויות. גם המספר המינימלי וגם המקסימלי כלולים בטווח.">Numbers are randomly selected without duplicates. Both ends of your chosen range are included.</p></div>
   </section>
-  {% endif %}
-
-  <footer>
-    Numbers are sampled randomly without duplicates. Both ends of the range are included.
-    The requested quantity must not exceed the number of integers available in the range.
-    Random results do not predict future outcomes.
-  </footer>
+  <footer data-en="For fun and learning: random results do not predict future outcomes." data-he="לכיף וללמידה: תוצאות אקראיות אינן מנבאות תוצאות עתידיות.">For fun and learning: random results do not predict future outcomes.</footer>
 </main>
+<script>
+(function () {
+  const buttons = document.querySelectorAll("[data-set-language]");
+  function setLanguage(language) {
+    const hebrew = language === "he";
+    document.documentElement.lang = language;
+    document.documentElement.dir = hebrew ? "rtl" : "ltr";
+    document.documentElement.dataset.language = language;
+    document.querySelectorAll("[data-en][data-he]").forEach(function (element) {
+      element.textContent = hebrew ? element.dataset.he : element.dataset.en;
+    });
+    document.querySelectorAll("[data-en-html][data-he-html]").forEach(function (element) {
+      element.innerHTML = hebrew ? element.dataset.heHtml : element.dataset.enHtml;
+    });
+    buttons.forEach(function (button) {
+      const active = button.dataset.setLanguage === language;
+      button.classList.toggle("active", active);
+      button.setAttribute("aria-pressed", String(active));
+    });
+    try { localStorage.setItem("lottery-picker-language", language); } catch (e) {}
+  }
+  buttons.forEach(function (button) {
+    button.addEventListener("click", function () { setLanguage(button.dataset.setLanguage); });
+  });
+  let initial = "en";
+  try { initial = localStorage.getItem("lottery-picker-language") || "en"; } catch (e) {}
+  setLanguage(initial);
+})();
+</script>
 </body>
 </html>

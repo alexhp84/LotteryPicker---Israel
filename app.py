@@ -15,7 +15,7 @@ def generate_numbers(count: int, minimum: int, maximum: int) -> list[int]:
 
 @app.route("/", methods=["GET", "POST"])
 def index():
-    count, minimum, maximum = 6, 1, 37
+    count, minimum, maximum = 6, 1, 49
     numbers = None
     error = None
 
@@ -23,7 +23,7 @@ def index():
         try:
             count = int(request.form.get("count", "6"))
             minimum = int(request.form.get("minimum", "1"))
-            maximum = int(request.form.get("maximum", "37"))
+            maximum = int(request.form.get("maximum", "49"))
             if not 1 <= count <= 500:
                 raise ValueError("Choose between 1 and 500 numbers.")
             if not (-1_000_000_000 <= minimum <= 1_000_000_000):
