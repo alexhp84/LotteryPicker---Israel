@@ -1,125 +1,89 @@
 <!doctype html>
-<html lang="en" dir="ltr" data-language="en">
+<html lang="en" dir="ltr">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#f4f8ff">
-  <meta name="description" content="Generate a custom set of random numbers. Choose the quantity and range.">
-  <title>Random Number Picker</title>
+  <meta name="theme-color" content="#eef6ff">
+  <title>Lucky Numbers | Random Number Picker</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <script defer src="{{ url_for('static', filename='script.js') }}"></script>
 </head>
 <body>
-<div class="decor decor-coin coin-one" aria-hidden="true">$</div>
-<div class="decor decor-coin coin-two" aria-hidden="true">$</div>
-<div class="decor decor-die" aria-hidden="true"><span>⚄</span></div>
-<div class="spark spark-one" aria-hidden="true">✦</div>
-<div class="spark spark-two" aria-hidden="true">✦</div>
-<main class="page">
-  <div class="language-switch" role="group" aria-label="Language / שפה">
-    <button type="button" class="language-button active" data-set-language="en" aria-pressed="true">English</button>
-    <button type="button" class="language-button" data-set-language="he" aria-pressed="false">עברית</button>
-  </div>
-
-  <header class="hero">
-    <div class="hero-art left-art" aria-hidden="true">
-      <div class="hero-ball ball-red">7</div>
-      <div class="hero-ball ball-yellow">23</div>
-      <div class="hero-ball ball-blue">42</div>
-      <span class="coin coin-small">＄</span>
-    </div>
-    <div class="hero-copy">
-      <div class="eyebrow" data-en="RANDOMNESS · YOUR RULES" data-he="אקראיות · לפי הבחירה שלך">RANDOMNESS · YOUR RULES</div>
-      <h1 data-en-html="Random <span>Number</span><br>Picker" data-he-html="מחולל <span>מספרים</span><br>אקראיים">Random <span>Number</span><br>Picker</h1>
-      <p data-en="Pick your numbers in seconds!" data-he="בחרו את המספרים שלכם בתוך שניות!">Pick your numbers in seconds!</p>
-    </div>
-    <div class="hero-art right-art" aria-hidden="true">
-      <div class="money-symbol">$</div>
-      <div class="dice"><span>⚄</span></div>
-      <div class="coin coin-large">＄</div>
-    </div>
+  <div class="decor decor-one" aria-hidden="true">$</div>
+  <div class="decor decor-two" aria-hidden="true">✦</div>
+  <div class="decor decor-three" aria-hidden="true">$</div>
+  <header class="topbar">
+    <a class="brand" href="/" aria-label="Random Number Picker home">
+      <span class="brand-mark" aria-hidden="true">✳</span>
+      <span data-en="Lucky Numbers" data-he="מספרים אקראיים">Lucky Numbers</span>
+    </a>
+    <button id="languageToggle" class="language-toggle" type="button" aria-label="Switch language">עברית <span aria-hidden="true">↗</span></button>
   </header>
 
-  <section class="app-panel">
-    <div class="section-heading">
-      <span class="heading-icon" aria-hidden="true">✦</span>
-      <div>
-        <h2 data-en="Make your own number set" data-he="צרו סדרת מספרים משלכם">Make your own number set</h2>
-        <p data-en="Choose how many numbers you need and set your own range." data-he="בחרו כמה מספרים אתם צריכים והגדירו את הטווח הרצוי.">Choose how many numbers you need and set your own range.</p>
-      </div>
-    </div>
+  <main class="page-shell">
+    <section class="hero">
+      <div class="eyebrow"><span class="eyebrow-dot"></span><span data-en="A LITTLE RANDOMNESS, A LOT OF FUN" data-he="קצת אקראיות, הרבה כיף">A LITTLE RANDOMNESS, A LOT OF FUN</span></div>
+      <h1><span data-en="Your numbers," data-he="המספרים שלך,">Your numbers,</span><br><span class="gradient-text" data-en="your moment." data-he="הרגע שלך.">your moment.</span></h1>
+      <p class="hero-copy" data-en="Pick a range, choose how many numbers you need, and let randomness do its thing." data-he="בחרו טווח, קבעו כמה מספרים צריך, ותנו לאקראיות לעשות את שלה.">Pick a range, choose how many numbers you need, and let randomness do its thing.</p>
+    </section>
 
-    {% if error %}
-      <p class="error" role="alert" data-error-en="{{ error }}" data-error-he="{{ error }}">{{ error }}</p>
-    {% endif %}
-
-    <form method="post" class="controls">
-      <label>
-        <span data-en="How many numbers?" data-he="כמה מספרים?">How many numbers?</span>
-        <input type="number" name="count" min="1" max="500" value="{{ count }}" required aria-label="How many numbers">
-        <small data-en="Number of unique results" data-he="מספר התוצאות הייחודיות">Number of unique results</small>
-      </label>
-      <label>
-        <span data-en="Minimum number" data-he="מספר מינימלי">Minimum number</span>
-        <input type="number" name="minimum" min="-1000000000" max="1000000000" value="{{ minimum }}" required aria-label="Minimum number">
-        <small data-en="Lowest value, included" data-he="הערך הנמוך ביותר, כולל">Lowest value, included</small>
-      </label>
-      <label>
-        <span data-en="Maximum number" data-he="מספר מקסימלי">Maximum number</span>
-        <input type="number" name="maximum" min="-1000000000" max="1000000000" value="{{ maximum }}" required aria-label="Maximum number">
-        <small data-en="Highest value, included" data-he="הערך הגבוה ביותר, כולל">Highest value, included</small>
-      </label>
-      <button type="submit"><span class="button-die" aria-hidden="true">⚄</span> <span data-en="Generate Numbers" data-he="הגרילו מספרים">Generate Numbers</span> <span aria-hidden="true">↗</span></button>
-    </form>
-
-    {% if numbers is not none %}
-    <section class="results" aria-live="polite">
-      <div class="results-heading">
-        <span class="clover" aria-hidden="true">☘</span>
+    <section class="picker-card" aria-labelledby="picker-title">
+      <div class="card-heading">
         <div>
-          <h2 data-en="Your Numbers" data-he="המספרים שלכם">Your Numbers</h2>
-          <p data-en="{{ numbers|length }} unique numbers · Range {{ minimum }}–{{ maximum }}" data-he="{{ numbers|length }} מספרים ייחודיים · טווח {{ minimum }}–{{ maximum }}">{{ numbers|length }} unique numbers · Range {{ minimum }}–{{ maximum }}</p>
+          <p class="section-kicker" data-en="MAKE YOUR PICK" data-he="בוחרים מספרים">MAKE YOUR PICK</p>
+          <h2 id="picker-title" data-en="Set your numbers" data-he="הגדרת המספרים">Set your numbers</h2>
         </div>
+        <div class="heading-icon" aria-hidden="true">✧</div>
       </div>
-      <div class="number-list">
-        {% for number in numbers %}
-          <span class="number-ball ball-{{ loop.index0 % 6 }}">{{ number }}</span>
-        {% endfor %}
+
+      <form id="pickerForm">
+        <div class="form-grid">
+          <label class="field">
+            <span data-en="How many?" data-he="כמה מספרים?">How many?</span>
+            <div class="input-wrap"><input id="quantity" name="quantity" type="number" min="1" max="20" value="6" required><span class="input-suffix" data-en="numbers" data-he="מספרים">numbers</span></div>
+          </label>
+          <label class="field">
+            <span data-en="Minimum number" data-he="מספר מינימלי">Minimum number</span>
+            <input id="minimum" name="minimum" type="number" value="1" required>
+          </label>
+          <label class="field">
+            <span data-en="Maximum number" data-he="מספר מקסימלי">Maximum number</span>
+            <input id="maximum" name="maximum" type="number" value="49" required>
+          </label>
+        </div>
+        <p class="validation-message" id="validationMessage" role="alert" aria-live="polite"></p>
+        <button class="generate-button" type="submit">
+          <span data-en="Generate numbers" data-he="יצירת מספרים">Generate numbers</span>
+          <span class="button-arrow" aria-hidden="true">↗</span>
+        </button>
+      </form>
+      <p class="helper-note"><span aria-hidden="true">ⓘ</span> <span data-en="Numbers are selected randomly, without duplicates." data-he="המספרים נבחרים באקראי, ללא כפילויות.">Numbers are selected randomly, without duplicates.</span></p>
+    </section>
+
+    <section class="results-card" aria-labelledby="results-title">
+      <div class="results-heading">
+        <div>
+          <p class="section-kicker" data-en="THE MOMENT OF REVEAL" data-he="רגע הגילוי">THE MOMENT OF REVEAL</p>
+          <h2 id="results-title" data-en="Your numbers" data-he="המספרים שלך">Your numbers</h2>
+        </div>
+        <button id="copyButton" class="copy-button" type="button"><span aria-hidden="true">▢</span> <span data-en="Copy results" data-he="העתקת תוצאות">Copy results</span></button>
+      </div>
+      <div id="results" class="number-balls" aria-live="polite" aria-label="Generated numbers">
+        <span class="number-ball ball-blue">7</span>
+        <span class="number-ball ball-purple">12</span>
+        <span class="number-ball ball-coral">23</span>
+        <span class="number-ball ball-gold">28</span>
+        <span class="number-ball ball-teal">34</span>
+        <span class="number-ball ball-blue">42</span>
+      </div>
+      <div class="results-footer">
+        <span class="result-status"><span class="status-dot"></span><span id="resultStatus" data-en="Ready when you are" data-he="מוכנים כשתהיו">Ready when you are</span></span>
+        <span id="resultRange">1–49</span>
       </div>
     </section>
-    {% endif %}
 
-    <div class="info-note"><span class="info-icon" aria-hidden="true">i</span><p data-en="Numbers are randomly selected without duplicates. Both ends of your chosen range are included." data-he="המספרים נבחרים באקראי ללא כפילויות. גם המספר המינימלי וגם המקסימלי כלולים בטווח.">Numbers are randomly selected without duplicates. Both ends of your chosen range are included.</p></div>
-  </section>
-  <footer data-en="For fun and learning: random results do not predict future outcomes." data-he="לכיף וללמידה: תוצאות אקראיות אינן מנבאות תוצאות עתידיות.">For fun and learning: random results do not predict future outcomes.</footer>
-</main>
-<script>
-(function () {
-  const buttons = document.querySelectorAll("[data-set-language]");
-  function setLanguage(language) {
-    const hebrew = language === "he";
-    document.documentElement.lang = language;
-    document.documentElement.dir = hebrew ? "rtl" : "ltr";
-    document.documentElement.dataset.language = language;
-    document.querySelectorAll("[data-en][data-he]").forEach(function (element) {
-      element.textContent = hebrew ? element.dataset.he : element.dataset.en;
-    });
-    document.querySelectorAll("[data-en-html][data-he-html]").forEach(function (element) {
-      element.innerHTML = hebrew ? element.dataset.heHtml : element.dataset.enHtml;
-    });
-    buttons.forEach(function (button) {
-      const active = button.dataset.setLanguage === language;
-      button.classList.toggle("active", active);
-      button.setAttribute("aria-pressed", String(active));
-    });
-    try { localStorage.setItem("lottery-picker-language", language); } catch (e) {}
-  }
-  buttons.forEach(function (button) {
-    button.addEventListener("click", function () { setLanguage(button.dataset.setLanguage); });
-  });
-  let initial = "en";
-  try { initial = localStorage.getItem("lottery-picker-language") || "en"; } catch (e) {}
-  setLanguage(initial);
-})();
-</script>
+    <p class="disclaimer" data-en="For entertainment and learning only. Random results do not predict future outcomes." data-he="לכיף וללמידה בלבד. תוצאות אקראיות אינן מנבאות תוצאות עתידיות.">For entertainment and learning only. Random results do not predict future outcomes.</p>
+  </main>
+  <footer><span data-en="Made for a little everyday curiosity" data-he="נוצר מתוך סקרנות יומיומית">Made for a little everyday curiosity</span> <span aria-hidden="true">✦</span></footer>
 </body>
 </html>
