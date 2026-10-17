@@ -1,0 +1,16 @@
+services:
+  random-number-generator:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: live-demo-lottery
+    restart: unless-stopped
+    init: true
+    ports:
+      - "127.0.0.1:8504:5000"
+    networks:
+      - live-demos
+
+networks:
+  live-demos:
+    external: true
