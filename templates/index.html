@@ -9,9 +9,15 @@
   <script defer src="{{ url_for('static', filename='script.js') }}"></script>
 </head>
 <body>
-  <div class="decor decor-one" aria-hidden="true">$</div>
-  <div class="decor decor-two" aria-hidden="true">✦</div>
-  <div class="decor decor-three" aria-hidden="true">$</div>
+  <div class="background-play" aria-hidden="true">
+    <span class="float-ball float-ball-a">7</span>
+    <span class="float-ball float-ball-b">23</span>
+    <span class="float-ball float-ball-c">42</span>
+    <span class="float-die float-die-a">⚄</span>
+    <span class="float-die float-die-b">⚅</span>
+    <span class="float-spark float-spark-a">✦</span>
+    <span class="float-spark float-spark-b">✧</span>
+  </div>
   <header class="topbar">
     <a class="brand" href="/" aria-label="Random Number Picker home">
       <span class="brand-mark" aria-hidden="true">✳</span>
@@ -22,8 +28,8 @@
 
   <main class="page-shell">
     <section class="hero">
-      <div class="eyebrow"><span class="eyebrow-dot"></span><span data-en="A LITTLE RANDOMNESS, A LOT OF FUN" data-he="קצת אקראיות, הרבה כיף">A LITTLE RANDOMNESS, A LOT OF FUN</span></div>
-      <h1><span data-en="Your numbers," data-he="המספרים שלך,">Your numbers,</span><br><span class="gradient-text" data-en="your moment." data-he="הרגע שלך.">your moment.</span></h1>
+      <div class="eyebrow"><span class="eyebrow-dot"></span><span data-en="ROLL INTO A LITTLE FUN" data-he="קצת אקראיות, הרבה כיף">ROLL INTO A LITTLE FUN</span></div>
+      <h1><span data-en="Pick a number," data-he="בוחרים מספרים,">Pick a number,</span><br><span class="gradient-text" data-en="make it fun." data-he="בכיף.">make it fun.</span></h1>
       <p class="hero-copy" data-en="Pick a range, choose how many numbers you need, and let randomness do its thing." data-he="בחרו טווח, קבעו כמה מספרים צריך, ותנו לאקראיות לעשות את שלה.">Pick a range, choose how many numbers you need, and let randomness do its thing.</p>
     </section>
 
@@ -63,7 +69,7 @@
     <section class="results-card" aria-labelledby="results-title">
       <div class="results-heading">
         <div>
-          <p class="section-kicker" data-en="THE MOMENT OF REVEAL" data-he="רגע הגילוי">THE MOMENT OF REVEAL</p>
+          <p class="section-kicker" data-en="YOUR RANDOM RESULTS" data-he="התוצאות האקראיות שלך">YOUR RANDOM RESULTS</p>
           <h2 id="results-title" data-en="Your numbers" data-he="המספרים שלך">Your numbers</h2>
         </div>
         <button id="copyButton" class="copy-button" type="button"><span aria-hidden="true">▢</span> <span data-en="Copy results" data-he="העתקת תוצאות">Copy results</span></button>
