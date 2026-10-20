@@ -56,6 +56,14 @@
             <span data-en="Maximum number" data-he="מספר מקסימלי">Maximum number</span>
             <input id="maximum" name="maximum" type="number" value="49" required>
           </label>
+          <label class="field bonus-field">
+            <span data-en="Bonus numbers" data-he="מספרי בונוס">Bonus numbers</span>
+            <select id="bonusCount" name="bonusCount">
+              <option value="0" data-en="None" data-he="ללא" selected>None</option>
+              <option value="1" data-en="1 bonus number" data-he="מספר בונוס אחד">1 bonus number</option>
+              <option value="2" data-en="2 bonus numbers" data-he="2 מספרי בונוס">2 bonus numbers</option>
+            </select>
+          </label>
         </div>
         <p class="validation-message" id="validationMessage" role="alert" aria-live="polite"></p>
         <button class="generate-button" type="submit">
@@ -81,6 +89,10 @@
         <span class="number-ball ball-gold">28</span>
         <span class="number-ball ball-teal">34</span>
         <span class="number-ball ball-blue">42</span>
+      </div>
+      <div id="bonusResultsSection" class="bonus-results-section" hidden>
+        <p class="section-kicker" data-en="BONUS NUMBERS" data-he="מספרי בונוס">BONUS NUMBERS</p>
+        <div id="bonusResults" class="number-balls bonus-number-balls" aria-live="polite" aria-label="Generated bonus numbers"></div>
       </div>
       <div class="results-footer">
         <span class="result-status"><span class="status-dot"></span><span id="resultStatus" data-en="Ready when you are" data-he="מוכנים כשתהיו">Ready when you are</span></span>
