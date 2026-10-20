@@ -42,30 +42,30 @@
         <div class="heading-icon" aria-hidden="true">✧</div>
       </div>
 
-      <form id="pickerForm">
+      <form id="pickerForm" method="post" action="/">
         <div class="form-grid">
           <label class="field">
             <span data-en="How many?" data-he="כמה מספרים?">How many?</span>
-            <div class="input-wrap"><input id="quantity" name="quantity" type="number" min="1" max="20" value="6" required><span class="input-suffix" data-en="numbers" data-he="מספרים">numbers</span></div>
+            <div class="input-wrap"><input id="quantity" name="quantity" type="number" min="1" max="20" value="{{ count }}" required><span class="input-suffix" data-en="numbers" data-he="מספרים">numbers</span></div>
           </label>
           <label class="field">
             <span data-en="Minimum number" data-he="מספר מינימלי">Minimum number</span>
-            <input id="minimum" name="minimum" type="number" value="1" required>
+            <input id="minimum" name="minimum" type="number" value="{{ minimum }}" required>
           </label>
           <label class="field">
             <span data-en="Maximum number" data-he="מספר מקסימלי">Maximum number</span>
-            <input id="maximum" name="maximum" type="number" value="49" required>
+            <input id="maximum" name="maximum" type="number" value="{{ maximum }}" required>
           </label>
           <label class="field bonus-field">
             <span data-en="Bonus numbers" data-he="מספרי בונוס">Bonus numbers</span>
             <select id="bonusCount" name="bonusCount">
-              <option value="0" data-en="None" data-he="ללא" selected>None</option>
-              <option value="1" data-en="1 bonus number" data-he="מספר בונוס אחד">1 bonus number</option>
-              <option value="2" data-en="2 bonus numbers" data-he="2 מספרי בונוס">2 bonus numbers</option>
+              <option value="0" data-en="None" data-he="ללא" {% if bonus_count == 0 %}selected{% endif %}>None</option>
+              <option value="1" data-en="1 bonus number" data-he="מספר בונוס אחד" {% if bonus_count == 1 %}selected{% endif %}>1 bonus number</option>
+              <option value="2" data-en="2 bonus numbers" data-he="2 מספרי בונוס" {% if bonus_count == 2 %}selected{% endif %}>2 bonus numbers</option>
             </select>
           </label>
         </div>
-        <p class="validation-message" id="validationMessage" role="alert" aria-live="polite"></p>
+        <p class="validation-message" id="validationMessage" role="alert" aria-live="polite">{{ error or "" }}</p>
         <button class="generate-button" type="submit">
           <span data-en="Generate numbers" data-he="יצירת מספרים">Generate numbers</span>
           <span class="button-arrow" aria-hidden="true">↗</span>
@@ -83,20 +83,25 @@
         <button id="copyButton" class="copy-button" type="button"><span aria-hidden="true">▢</span> <span data-en="Copy results" data-he="העתקת תוצאות">Copy results</span></button>
       </div>
       <div id="results" class="number-balls" aria-live="polite" aria-label="Generated numbers">
-        <span class="number-ball ball-blue">7</span>
-        <span class="number-ball ball-purple">12</span>
-        <span class="number-ball ball-coral">23</span>
-        <span class="number-ball ball-gold">28</span>
-        <span class="number-ball ball-teal">34</span>
-        <span class="number-ball ball-blue">42</span>
+        {% if numbers is not none %}
+          {% for number in numbers %}
+            <span class="number-ball {{ ['ball-blue', 'ball-purple', 'ball-coral', 'ball-gold', 'ball-teal'][loop.index0 % 5] }}">{{ number }}</span>
+          {% endfor %}
+        {% else %}
+          <span class="number-ball ball-blue">7</span><span class="number-ball ball-purple">12</span><span class="number-ball ball-coral">23</span><span class="number-ball ball-gold">28</span><span class="number-ball ball-teal">34</span><span class="number-ball ball-blue">42</span>
+        {% endif %}
       </div>
-      <div id="bonusResultsSection" class="bonus-results-section" hidden>
+      <div id="bonusResultsSection" class="bonus-results-section" {% if not bonuses %}hidden{% endif %}>
         <p class="section-kicker" data-en="BONUS NUMBERS" data-he="מספרי בונוס">BONUS NUMBERS</p>
-        <div id="bonusResults" class="number-balls bonus-number-balls" aria-live="polite" aria-label="Generated bonus numbers"></div>
+        <div id="bonusResults" class="number-balls bonus-number-balls" aria-live="polite" aria-label="Generated bonus numbers">
+          {% for number in bonuses %}
+            <span class="number-ball {{ ['ball-blue', 'ball-purple', 'ball-coral', 'ball-gold', 'ball-teal'][loop.index0 % 5] }} bonus-number-ball">{{ number }}</span>
+          {% endfor %}
+        </div>
       </div>
       <div class="results-footer">
-        <span class="result-status"><span class="status-dot"></span><span id="resultStatus" data-en="Ready when you are" data-he="מוכנים כשתהיו">Ready when you are</span></span>
-        <span id="resultRange">1–49</span>
+        <span class="result-status"><span class="status-dot"></span><span id="resultStatus" data-en="{{ 'Freshly generated' if numbers is not none else 'Ready when you are' }}" data-he="{{ 'נוצרו עכשיו' if numbers is not none else 'מוכנים כשתהיו' }}">{{ 'Freshly generated' if numbers is not none else 'Ready when you are' }}</span></span>
+        <span id="resultRange">{{ minimum }}–{{ maximum }}</span>
       </div>
     </section>
 
